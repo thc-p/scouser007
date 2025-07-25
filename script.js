@@ -1,7 +1,7 @@
 
-const dashboardCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRObgNCjWo-mlNlJLbMXxfS_Hv8FkMvulkKZaUEBA_hm2x6D9pH5dZ0cDiWEanXbDm-Hf-HJrmvNHOc/pub?gid=482087278&single=true&output=csv';
-const reportsCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRObgNCjWo-mlNlJLbMXxfS_Hv8FkMvulkKZaUEBA_hm2x6D9pH5dZ0cDiWEanXbDm-Hf-HJrmvNHOc/pub?gid=986012157&single=true&output=csv';
-const inboundCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRObgNCjWo-mlNlJLbMXxfS_Hv8FkMvulkKZaUEBA_hm2x6D9pH5dZ0cDiWEanXbDm-Hf-HJrmvNHOc/pub?gid=0&single=true&output=csv';
+const dashboardCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy2OsKRSZmzWdCN2l7W3BeAkJiVffjZb2-0JLzhSZ_rOKiZchgUfHvbzxPY_Bm0i2crOF1jmRwczhd/pub?gid=387505936&single=true&output=csv';
+const reportsCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy2OsKRSZmzWdCN2l7W3BeAkJiVffjZb2-0JLzhSZ_rOKiZchgUfHvbzxPY_Bm0i2crOF1jmRwczhd/pub?gid=986012157&single=true&output=csv';
+const inboundCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy2OsKRSZmzWdCN2l7W3BeAkJiVffjZb2-0JLzhSZ_rOKiZchgUfHvbzxPY_Bm0i2crOF1jmRwczhd/pub?gid=0&single=true&output=csv';
 
 
 function navigate(section) {
