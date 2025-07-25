@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Hustle Club Prep</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <button id="toggleSidebar" title="Toggle Sidebar">☰</button>
+    <h2>Dashboard</h2>
+    <ul>
+      <li onclick="navigate('dashboard')">📊 <span class="text">Dashboard</span></li>
+      <li onclick="navigate('inbound')">📦 <span class="text">Inbound</span></li>
+      <li onclick="navigate('reports')">🚚 <span class="text">Shipments</span></li>
+    </ul>
+  </div>
+  <div class="content" id="mainContent">
+    <div id="dashboard" class="section">
+      <h1>Welcome to<br><span class="brand">The Hustle Club Prep</span></h1>
+      <label>Month:
+        <select id="monthSelect" onchange="updateDashboard()">
+          <option>January</option><option>February</option><option>March</option>
+          <option>April</option><option>May</option><option>June</option>
+          <option>July</option><option>August</option><option>September</option>
+          <option>October</option><option>November</option><option>December</option>
+        </select>
+      </label>
+      <div id="ringsContainer" class="rings"></div>
+    </div>
+    <div id="reports" class="section" style="display:none;">
+      <h1>Reports</h1>
+      <table id="reportsTable"></table>
+    </div>
+
+    <div id="inbound" class="section" style="display:none;">
+  <h1>Inbound</h1>
+  <table id="inboundTable">
+    <thead>
+      <tr>
+        <th>Estimated Date of Arrival</th>
+        <th>ASIN</th>
+        <th>Bundle Units?</th>
+        <th>Units</th>
+        <th>Units Received</th>
+        <th>Condition</th>
+        <th>Date Received at Prep Centre</th>
+        <th>Delivered By</th>
+        <th>Photo</th>
+        <th>Completed?</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+
+<div id="pricing" class="section" style="display:none;">
+  <div class="card-row">
+    <!-- Pricing Card -->
+    <div class="card-pricing">
+      <h1>Level 1</h1>
+      <h4>Under 1000 units a month</h4>
+      <ul class="pricing-list">
+        <li>Single unit: £0.35 (ex. VAT)</li>
+        <li>Bundle of 2: £0.45 (ex. VAT)</li>
+        <li>Bundle of 3: £0.55 (ex. VAT)</li>
+        <li>Bundle of 4: £0.65 (ex. VAT)</li>
+        <li>Dangerous Goods Box: £10.99 (ex. VAT)</li>
+        <li>Box Cost: £0.65 (ex. VAT)</li>
+      </ul>
+    </div>
+
+    <!-- Second Card -->
+    <div class="card-pricing">
+      <h1>Level 2</h1>
+      <h4>Over 1000 units a month</h4>
+      <ul class="pricing-list">
+        <li>Single unit: £0.30 (ex. VAT)</li>
+        <li>Bundle of 2: £0.35 (ex. VAT)</li>
+        <li>Bundle of 3: £0.45 (ex. VAT)</li>
+        <li>Bundle of 4: £0.55 (ex. VAT)</li>
+        <li>Dangerous Goods Box: £10.99 (ex. VAT)</li>
+        <li>Box Cost: £0.65 (ex. VAT)</li>
+      </ul>
+    </div>
+        <div class="card-pricing">
+      <h1>Level 3</h1>
+      <h4>Over 5000 units a month</h4>
+      <ul class="pricing-list">
+        <li>Single unit: £0.20 (ex. VAT)</li>
+        <li>Bundle of 2: £0.35 (ex. VAT)</li>
+        <li>Bundle of 3: £0.45 (ex. VAT)</li>
+        <li>Bundle of 4: £0.55 (ex. VAT)</li>
+        <li>Dangerous Goods Box: £10.99 (ex. VAT)</li>
+        <li>Box Cost: £0.65 (ex. VAT)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <img id="modalImage" src="" alt="Zoomed Image" />
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

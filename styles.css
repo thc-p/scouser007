@@ -1,0 +1,355 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0f0f0f;
+  color: #eaeaea;
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #1c1c1c;
+  height: 100vh;
+  padding: 24px 16px;
+  box-shadow: 2px 0 10px rgba(255, 64, 64, 0.3);
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: width 0.3s ease;
+  z-index: 1000;
+  overflow-x: hidden;
+  border-right: 1px solid #2e2e2e;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+.sidebar h2 {
+  color: #ff4040;
+  margin-bottom: 30px;
+  font-size: 22px;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed h2,
+.sidebar.collapsed .text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 16px 0;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out, color 0.2s;
+  background-color: #252525;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.2);
+}
+
+.sidebar ul li:hover {
+  background-color: #ff4040;
+  color: #fff;
+}
+
+.sidebar ul li .text {
+  margin-left: 10px;
+  transition: opacity 0.2s ease;
+}
+
+#toggleSidebar {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 30px;
+  outline: none;
+}
+
+.content {
+  margin-left: 240px;
+  padding: 30px;
+  flex: 1;
+  transition: margin-left 0.3s ease;
+  background-color: #121212;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.sidebar.collapsed ~ .content {
+  margin-left: 70px;
+}
+
+.brand {
+  color: #ff4040;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.content h1,
+.content h2,
+.content p,
+.content table {
+  text-align: center;
+}
+
+/* Ring Dashboard */
+.rings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.ring {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #1e1e1e;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.ring.glow-yellow { box-shadow: 0 0 25px gold; border: 10px solid gold; }
+.ring.glow-green  { box-shadow: 0 0 25px lime; border: 10px solid lime; }
+.ring.glow-blue   { box-shadow: 0 0 25px deepskyblue; border: 10px solid deepskyblue; }
+.ring.glow-red    { box-shadow: 0 0 25px tomato; border: 10px solid tomato; }
+
+/* Table Styling (shared) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #333;
+}
+
+th {
+  background-color: #1f1f1f;
+  color: #ff4040;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr:hover {
+  background-color: #292929;
+  transition: background 0.2s ease-in-out;
+}
+
+/* Badges */
+.badge,
+.badge-green,
+.badge-yellow {
+  font-size: 12.5px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.badge { background-color: #ca0000f1; color: white; }
+.badge-green { background-color: #28a745; color: white; }
+.badge-yellow { background-color: #ffc107; color: black; }
+
+/* Image styling */
+.photo-thumb {
+  width: 60px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(255,255,255,0.2);
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+}
+
+/* Loader */
+.loader {
+  border: 4px solid #333;
+  border-top: 4px solid #ff4040;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 30px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Inbound Table Styling */
+#inboundTable {
+  width: 100%;
+  background-color: #1b1b1b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+#inboundTable thead {
+  background-color: #222;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+#inboundTable th,
+#inboundTable td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+#inboundTable th {
+  color: #ff4040;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#inboundTable tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+
+#inboundTable tbody tr:hover {
+  background-color: #333;
+}
+
+#inboundTable td img.photo-thumb {
+  max-width: 60px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+/* Reports (Shipments) Table Styling */
+#reportsTable {
+  width: 100%;
+  background-color: #1b1b1b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+#reportsTable thead {
+  background-color: #222;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+#reportsTable th,
+#reportsTable td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+#reportsTable th {
+  color: #ff4040;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#reportsTable tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+
+#reportsTable tbody tr:hover {
+  background-color: #333;
+}
+
+#reportsTable td img.photo-thumb {
+  max-width: 60px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+/* Pricing Cards */
+.card-pricing {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+  padding: 24px 32px;
+  margin: 20px;
+  max-width: 500px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-pricing:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(255, 64, 64, 0.4);
+}
+
+#pricing h1 {
+  color: #ff4040;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.pricing-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.pricing-list li {
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+  color: #ccc;
+}
