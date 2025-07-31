@@ -123,9 +123,13 @@ function loadReports() {
     .then(csvText => {
       const parsed = Papa.parse(csvText.trim(), { header: true });
       const dataRows = parsed.data;
-      const headers = parsed.meta.fields;
+      let headers = parsed.meta.fields || [];
 
-      if (!headers || headers.length === 0 || dataRows.length === 0) {
+      // Filter out any empty or undefined headers
+      headers = headers.filter(Boolean);
+      console.log("Headers:", headers);
+
+      if (!headers.length || !dataRows.length) {
         table.innerHTML = '<p>No data available.</p>';
         return;
       }
@@ -163,6 +167,7 @@ function loadReports() {
       table.innerHTML = `<p style="color:red;">Failed to load data.</p>`;
     });
 }
+
 
 
 function getCurrentMonthName() {
