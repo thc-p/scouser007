@@ -23,15 +23,15 @@ function loadInbound() {
       if (!response.ok) throw new Error('Network error');
       return response.text();
     })
-    .then(csv => {
-      const rows = csv.trim().split('\n').map(r => r.split(','));
-      if (rows.length < 2) {
+    .then(csvText => {
+      const parsed = Papa.parse(csvText.trim(), { header: true });
+      const dataRows = parsed.data;
+      const headers = parsed.meta.fields;
+
+      if (!headers || headers.length === 0 || dataRows.length === 0) {
         tableContainer.innerHTML = '<p>No data available.</p>';
         return;
       }
-
-      const headers = rows[0];
-      const dataRows = rows.slice(1);
 
       let html = '<thead><tr>';
       headers.forEach(h => {
@@ -41,15 +41,15 @@ function loadInbound() {
 
       for (const row of dataRows) {
         html += '<tr>';
-        for (let i = 0; i < headers.length; i++) {
-          const header = headers[i]?.toLowerCase();
-          const value = (row[i] || '').trim();
+        headers.forEach(header => {
+          const key = header.toLowerCase();
+          const value = (row[header] || '').trim();
 
-          if (header.includes('photo')) {
+          if (key.includes('photo')) {
             html += value
               ? `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`
               : `<td></td>`;
-          } else if (header.includes('condition')) {
+          } else if (key.includes('condition')) {
             if (value.toLowerCase() === 'good') {
               html += `<td><span class="badge-green">${value}</span></td>`;
             } else if (value === '') {
@@ -57,7 +57,7 @@ function loadInbound() {
             } else {
               html += `<td><span class="badge">${value}</span></td>`;
             }
-          } else if (header.includes('completed')) {
+          } else if (key.includes('completed')) {
             if (value.toLowerCase() === 'yes') {
               html += `<td><span class="badge-green">${value}</span></td>`;
             } else if (value === '') {
@@ -68,7 +68,7 @@ function loadInbound() {
           } else {
             html += `<td>${value}</td>`;
           }
-        }
+        });
         html += '</tr>';
       }
 
@@ -76,12 +76,10 @@ function loadInbound() {
       tableContainer.innerHTML = html;
     })
     .catch(err => {
-      console.error('Error loading Inbound data:', err);
+      console.error('Error loading inbound data:', err);
       tableContainer.innerHTML = `<p style="color:red;">Failed to load data.</p>`;
     });
 }
-
-
 
 
 
