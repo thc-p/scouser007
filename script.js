@@ -31,7 +31,7 @@ function loadInbound() {
       }
 
       const headers = rows[0];
-      const dataRows = rows.slice(1);
+      const dataRows = rows.slice(1).filter(row => row.length >= headers.length);
 
       let html = '<thead><tr>';
       headers.forEach(h => {
@@ -39,45 +39,41 @@ function loadInbound() {
       });
       html += '</tr></thead><tbody>';
 
-for (const row of dataRows) {
-  html += '<tr>';
-  row.forEach((cell, i) => {
-    const header = headers[i]?.toLowerCase();
-    const value = cell.trim();
+      for (const row of dataRows) {
+        html += '<tr>';
+        for (let i = 0; i < headers.length; i++) {
+          const header = headers[i]?.toLowerCase();
+          const value = (row[i] || '').trim();
 
-    if (header.includes('photo')) {
-      html += `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`;
-    } else if (header.includes('condition')) {
-      if (value.toLowerCase() === 'good') {
-        html += `<td><span class="badge-green">${value}</span></td>`;
-      } else if (value === '') {
-        html += `<td></td>`;
-      } else {
-        html += `<td><span class="badge">${value}</span></td>`;
+          if (header.includes('photo')) {
+            if (value) {
+              html += `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`;
+            } else {
+              html += `<td></td>`;
+            }
+          } else if (header.includes('condition')) {
+            if (value.toLowerCase() === 'good') {
+              html += `<td><span class="badge-green">${value}</span></td>`;
+            } else if (value === '') {
+              html += `<td></td>`;
+            } else {
+              html += `<td><span class="badge">${value}</span></td>`;
+            }
+          } else if (header.includes('completed')) {
+            if (value.toLowerCase() === 'yes') {
+              html += `<td><span class="badge-green">${value}</span></td>`;
+            } else if (value === '') {
+              html += `<td><span class="badge-yellow">On The Way</span></td>`;
+            } else {
+              html += `<td><span class="badge">${value}</span></td>`;
+            }
+          } else {
+            html += `<td>${value}</td>`;
+          }
+        }
+        html += '</tr>';
       }
-    } else if (header.includes('completed')) {
-      if (value.toLowerCase() === 'yes') {
-        html += `<td><span class="badge-green">${value}</span></td>`;
-      } else if (value === '') {
-        html += `<td><span class="badge-yellow">On The Way</span></td>`;
-      } else {
-        html += `<td><span class="badge">${value}</span></td>`;
-      }
-    } else {
-      html += `<td>${value}</td>`;
-    }
-  });
-  html += '</tr>';
-}
 
-      html += '</tbody>';
-      tableContainer.innerHTML = html;
-    })
-    .catch(err => {
-      console.error(err);
-      tableContainer.innerHTML = `<p style="color:red;">Failed to load data.</p>`;
-    });
-}
 
 
 
