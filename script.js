@@ -31,7 +31,7 @@ function loadInbound() {
       }
 
       const headers = rows[0];
-      const dataRows = rows.slice(1).filter(row => row.length >= headers.length);
+      const dataRows = rows.slice(1);
 
       let html = '<thead><tr>';
       headers.forEach(h => {
@@ -46,11 +46,9 @@ function loadInbound() {
           const value = (row[i] || '').trim();
 
           if (header.includes('photo')) {
-            if (value) {
-              html += `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`;
-            } else {
-              html += `<td></td>`;
-            }
+            html += value
+              ? `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`
+              : `<td></td>`;
           } else if (header.includes('condition')) {
             if (value.toLowerCase() === 'good') {
               html += `<td><span class="badge-green">${value}</span></td>`;
@@ -73,6 +71,16 @@ function loadInbound() {
         }
         html += '</tr>';
       }
+
+      html += '</tbody>';
+      tableContainer.innerHTML = html;
+    })
+    .catch(err => {
+      console.error('Error loading Inbound data:', err);
+      tableContainer.innerHTML = `<p style="color:red;">Failed to load data.</p>`;
+    });
+}
+
 
 
 
