@@ -111,33 +111,59 @@ function updateDashboard() {
 
 function loadReports() {
   const table = document.getElementById('reportsTable');
+  if (!table) return;
+
   showLoader('reportsTable');
-  fetch(reportsCSV).then(r => r.text()).then(text => {
-    const rows = text.trim().split('\n').map(r => r.split(','));
-    const header = rows[0];
-    const bodyRows = rows.slice(1);
-    let html = '<thead><tr>';
-    for (const h of header) {
-      html += `<th>${h}</th>`;
-    }
-    html += '</tr></thead><tbody>';
-    for (const row of bodyRows) {
-      html += '<tr>';
-      row.forEach((cell, index) => {
-        if (header[index].toLowerCase().includes('shipment')) {
-          html += `<td><span class="badge">${cell}</span></td>`;
-        } else if (header[index].toLowerCase().includes('photo')) {
-          html += `<td><img src="${cell}" class="photo-thumb" onclick="openImage('${cell}')"/></td>`;
-        } else {
-          html += `<td>${cell}</td>`;
-        }
+
+  fetch(reportsCSV)
+    .then(response => {
+      if (!response.ok) throw new Error('Network error');
+      return response.text();
+    })
+    .then(csvText => {
+      const parsed = Papa.parse(csvText.trim(), { header: true });
+      const dataRows = parsed.data;
+      const headers = parsed.meta.fields;
+
+      if (!headers || headers.length === 0 || dataRows.length === 0) {
+        table.innerHTML = '<p>No data available.</p>';
+        return;
+      }
+
+      let html = '<thead><tr>';
+      headers.forEach(h => {
+        html += `<th>${h}</th>`;
       });
-      html += '</tr>';
-    }
-    html += '</tbody>';
-    table.innerHTML = html;
-  });
+      html += '</tr></thead><tbody>';
+
+      for (const row of dataRows) {
+        html += '<tr>';
+        headers.forEach(header => {
+          const key = header.toLowerCase();
+          const value = (row[header] || '').trim();
+
+          if (key.includes('shipment')) {
+            html += `<td><span class="badge">${value}</span></td>`;
+          } else if (key.includes('photo')) {
+            html += value
+              ? `<td><img src="${value}" class="photo-thumb" onclick="openImage('${value}')"/></td>`
+              : `<td></td>`;
+          } else {
+            html += `<td>${value}</td>`;
+          }
+        });
+        html += '</tr>';
+      }
+
+      html += '</tbody>';
+      table.innerHTML = html;
+    })
+    .catch(err => {
+      console.error('Error loading reports data:', err);
+      table.innerHTML = `<p style="color:red;">Failed to load data.</p>`;
+    });
 }
+
 
 function getCurrentMonthName() {
   return new Date().toLocaleString('default', { month: 'long' });
