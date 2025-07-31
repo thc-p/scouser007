@@ -21,6 +21,16 @@ body {
   border-right: 1px solid #2e2e2e;
 }
 
+th {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 120px; /* You can adjust this */
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
 .sidebar.collapsed {
   width: 50px;
 }
