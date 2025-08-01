@@ -107,7 +107,7 @@ function updateDashboard() {
       const received = entry[1] || "0";
       const shipped = entry[2] || "0";
       const asins = entry[4] || "0";
-      const cost = entry[5] || "£0.00";
+      const cost = entry[12] || "£0.00";
 
       const data = [
         { label: 'Units Received', value: received, cls: 'glow-yellow' },
