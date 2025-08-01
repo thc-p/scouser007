@@ -113,7 +113,7 @@ function updateDashboard() {
         { label: 'Units Received', value: received, cls: 'glow-yellow' },
         { label: 'Units Shipped', value: shipped, cls: 'glow-green' },
         { label: 'Total ASINs', value: asins, cls: 'glow-blue' },
-        { label: 'Cost (ex. VAT)', value: `£${parseFloat(cost).toFixed(2)}`, cls: 'glow-red' },
+        { label: 'Cost (Inc. VAT)', value: `£${parseFloat(cost).toFixed(2)}`, cls: 'glow-red' },
       ];
 
       container.innerHTML = '';
