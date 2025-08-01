@@ -86,28 +86,46 @@ function loadInbound() {
 function updateDashboard() {
   const container = document.getElementById('ringsContainer');
   showLoader('ringsContainer');
-  fetch(dashboardCSV).then(r => r.text()).then(text => {
-    const lines = text.trim().split('\n').map(r => r.split(','));
-    const month = document.getElementById('monthSelect').value;
-    const entry = lines.find(row => row[0].toLowerCase() === month.toLowerCase());
-    const [, received, shipped, , asins] = entry || [];
-    const r = received || "0", s = shipped || "0", a = asins || "0";
-    const cost = (parseInt(s) < 1000 ? 0.25 : 0.20) * parseInt(s);
-    const data = [
-      { label: 'Units Received', value: r, cls: 'glow-yellow' },
-      { label: 'Units Shipped', value: s, cls: 'glow-green' },
-      { label: 'Total ASINs', value: a, cls: 'glow-blue' },
-      { label: 'Cost (ex. VAT)', value: `£${cost.toFixed(2)}`, cls: 'glow-red' },
-    ];
-    container.innerHTML = '';
-    for (const item of data) {
-      const div = document.createElement('div');
-      div.className = `ring ${item.cls}`;
-      div.innerHTML = `<div>${item.value}</div><div style="font-size:13px; margin-top:5px;">${item.label}</div>`;
-      container.appendChild(div);
-    }
-  });
+
+  fetch(dashboardCSV)
+    .then(r => r.text())
+    .then(text => {
+      const lines = text.trim().split('\n').map(r => r.split(','));
+      const header = lines[0]; // Get header row
+      const month = document.getElementById('monthSelect').value;
+
+      // Find the matching row for selected month
+      const entry = lines.find((row, index) =>
+        index > 0 && row[0].toLowerCase() === month.toLowerCase()
+      );
+
+      if (!entry) {
+        container.innerHTML = '<p style="color:red;">No data found for selected month.</p>';
+        return;
+      }
+
+      const received = entry[1] || "0";
+      const shipped = entry[2] || "0";
+      const asins = entry[4] || "0";
+      const cost = entry[5] || "£0.00";
+
+      const data = [
+        { label: 'Units Received', value: received, cls: 'glow-yellow' },
+        { label: 'Units Shipped', value: shipped, cls: 'glow-green' },
+        { label: 'Total ASINs', value: asins, cls: 'glow-blue' },
+        { label: 'Cost (ex. VAT)', value: `£${parseFloat(cost).toFixed(2)}`, cls: 'glow-red' },
+      ];
+
+      container.innerHTML = '';
+      for (const item of data) {
+        const div = document.createElement('div');
+        div.className = `ring ${item.cls}`;
+        div.innerHTML = `<div>${item.value}</div><div style="font-size:13px; margin-top:5px;">${item.label}</div>`;
+        container.appendChild(div);
+      }
+    });
 }
+
 
 function loadReports() {
   const table = document.getElementById('reportsTable');
